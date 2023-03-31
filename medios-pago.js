@@ -24,7 +24,7 @@ $(document).ready(function () {
     const exampleModal = document.getElementById('modalEdicion')
     exampleModal.addEventListener('show.bs.modal', event => {
         const button = event.relatedTarget
-        
+
         const id = button.getAttribute('data-bs-id');
         const entidad = button.getAttribute('data-bs-entidad');
         const nombre = button.getAttribute('data-bs-nombre');
@@ -34,5 +34,29 @@ $(document).ready(function () {
 
         $('#id').val(id);
         $('#nombre').val(nombre);
-    })
+    });
+
+    $('#frmGuardar').submit(function (e) {
+        e.preventDefault();
+
+        let id = $('#id').val();
+        let nombre = $('#nombre').val();
+
+        var settings = {
+            "url": "http://localhost:8080/backend/api/forma-pago",
+            "method": "PUT",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+                "id": id,
+                "nombre": nombre
+            }),
+        };
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    });
 });
