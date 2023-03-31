@@ -8,11 +8,11 @@ $(document).ready(function () {
             let tbyDatos = $('#tbyDatos');
 
             // Recorrer el arreglo de objetos JSON que se encuentra en la propiedad 'data' del objeto JSON 'data':
-            data.forEach(function (formaPago) {
+            data.forEach(function (e) {
                 const tr = $('<tr></tr>');
-                tr.append('<td>' + formaPago.id + '</td>');
-                tr.append('<td>' + formaPago.nombre + '</td>');
-                tr.append('<td><button class="btn btn-warning">Editar</button></td>');
+                tr.append('<td>' + e.id + '</td>');
+                tr.append('<td>' + e.nombre + '</td>');
+                tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-id="${e.id}" data-bs-nombre="${e.nombre}">Editar</button></td>`);
                 
                 tbyDatos.append(tr);
             });
