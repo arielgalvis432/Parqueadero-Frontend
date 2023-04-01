@@ -32,9 +32,13 @@ $(document).ready(function () {
 
     const operacion = button.getAttribute("data-bs-operacion");
 
-    $("#frmGuardar").attr("operacion", button.getAttribute("data-bs-operacion"));
+    $("#frmGuardar").attr(
+      "operacion",
+      button.getAttribute("data-bs-operacion")
+    );
 
     if (operacion == "editar") {
+      $("#nit").prop("disabled", true);
       const id = button.getAttribute("data-bs-id");
       const entidad = button.getAttribute("data-bs-entidad");
       const nombre = button.getAttribute("data-bs-nombre");
@@ -48,14 +52,14 @@ $(document).ready(function () {
       $("#direccion").val(button.getAttribute("data-bs-direccion"));
       $("#telefono").val(button.getAttribute("data-bs-telefono"));
     } else {
-        const titulo = exampleModal.querySelector(".modal-title");
-        titulo.textContent = "Nuevo Parqueadero";
-    
-        $("#id").val("");
-        $("#nombre").val("");
-        $("#nit").val("");
-        $("#direccion").val("");
-        $("#telefono").val("");
+      const titulo = exampleModal.querySelector(".modal-title");
+      titulo.textContent = "Nuevo Parqueadero";
+
+      $("#id").val("");
+      $("#nombre").val("");
+      $("#nit").val("");
+      $("#direccion").val("");
+      $("#telefono").val("");
     }
   });
 
