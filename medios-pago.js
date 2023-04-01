@@ -43,7 +43,7 @@ $(document).ready(function () {
         let nombre = $('#nombre').val();
 
         var settings = {
-            "url": "http://localhost:8080/backend/api/forma-pago",
+            "url": "http://localhost:8080/backend/api/forma-pago/",
             "method": "PUT",
             "timeout": 0,
             "headers": {
