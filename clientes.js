@@ -74,13 +74,14 @@ $(document).ready(function () {
     const operacion = $("#frmGuardar").attr("operacion");
 
     let id = operacion == "editar" ? $("#id").val() : 0;
-    let nombre = $("#nombre").val();
-    let nit = $("#nit").val();
-    let direccion = $("#direccion").val();
-    let telefono = $("#telefono").val();
+    const nombreCompleto = $("#nombreCompleto").val();
+    const documento = $("#documento").val();
+    const email = $("#email").val();
+    const telefono = $("#telefono").val();
+    const parqueaderoId = $("#parqueaderoId").val();
 
     var settings = {
-      url: "http://localhost:8080/backend/api/parqueadero",
+      url: "http://localhost:8080/backend/api/cliente",
       method: operacion == "editar" ? "PUT" : "POST",
       timeout: 0,
       headers: {
@@ -88,10 +89,11 @@ $(document).ready(function () {
       },
       data: JSON.stringify({
         id: id,
-        nombre: nombre,
-        nit: nit,
-        direccion: direccion,
+        nombreCompleto: nombreCompleto,
+        documento: documento,
+        email: email,
         telefono: telefono,
+        parqueaderoId: parqueaderoId,
       }),
     };
 
