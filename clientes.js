@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $.ajax({
-    url: "http://localhost:8080/backend/api/parqueadero",
+    url: "http://localhost:8080/backend/api/cliente",
     type: "GET",
     dataType: "json",
     success: function (data) {
@@ -10,10 +10,11 @@ $(document).ready(function () {
       data.forEach(function (e) {
         const tr = $("<tr></tr>");
         tr.append("<td>" + e.id + "</td>");
-        tr.append("<td>" + e.nombre + "</td>");
-        tr.append("<td>" + e.nit + "</td>");
-        tr.append("<td>" + e.direccion + "</td>");
+        tr.append("<td>" + e.nombreCompleto + "</td>");
+        tr.append("<td>" + e.email + "</td>");
+        tr.append("<td>" + e.documento + "</td>");
         tr.append("<td>" + e.telefono + "</td>");
+        tr.append("<td>" + e.nombreParqueadero + "</td>");
         tr.append(
           `<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-entidad="Parqueadero" data-bs-id="${e.id}" data-bs-nombre="${e.nombre}" data-bs-nit="${e.nit}" data-bs-direccion="${e.direccion}" data-bs-telefono="${e.telefono}">Editar</button></td>`
         );
