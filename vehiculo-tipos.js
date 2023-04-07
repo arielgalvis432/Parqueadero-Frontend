@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $.ajax({
-        url: 'http://localhost:8080/backend/api/forma-pago',
+        url: 'http://localhost:8080/backend/api/vehiculo-tipo',
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -11,7 +11,8 @@ $(document).ready(function () {
                 const tr = $('<tr></tr>');
                 tr.append('<td>' + e.id + '</td>');
                 tr.append('<td>' + e.nombre + '</td>');
-                tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-entidad="Medio de pago" data-bs-id="${e.id}" data-bs-nombre="${e.nombre}">Editar</button></td>`);
+                tr.append('<td>' + e.tarifa + '</td>');
+                tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-entidad="Vehículo - Tipo" data-bs-id="${e.id}" data-bs-nombre="${e.nombre}" data-bs-tarifa="${e.tarifa}">Editar</button></td>`);
 
                 tbyDatos.append(tr);
             });
@@ -28,22 +29,25 @@ $(document).ready(function () {
         const id = button.getAttribute('data-bs-id');
         const entidad = button.getAttribute('data-bs-entidad');
         const nombre = button.getAttribute('data-bs-nombre');
+        const tarifa = button.getAttribute('data-bs-tarifa');
 
         const titulo = exampleModal.querySelector('.modal-title')
         titulo.textContent = entidad;
 
         $('#id').val(id);
         $('#nombre').val(nombre);
+        $('#tarifa').val(tarifa);
     });
 
     $('#frmGuardar').submit(function (e) {
         e.preventDefault();
 
-        let id = $('#id').val();
-        let nombre = $('#nombre').val();
+        const id = $('#id').val();
+        const nombre = $('#nombre').val();
+        const tarifa = $('#tarifa').val();
 
         var settings = {
-            "url": "http://localhost:8080/backend/api/forma-pago/",
+            "url": "http://localhost:8080/backend/api/vehiculo-tipo",
             "method": "PUT",
             "timeout": 0,
             "headers": {
@@ -51,7 +55,8 @@ $(document).ready(function () {
             },
             "data": JSON.stringify({
                 "id": id,
-                "nombre": nombre
+                "nombre": nombre,
+                "tarifa": tarifa
             }),
         };
 
