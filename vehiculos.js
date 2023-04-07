@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $.ajax({
-    url: "http://localhost:8080/backend/api/cliente",
+    url: "http://localhost:8080/backend/api/vehiculo",
     type: "GET",
     dataType: "json",
     success: function (data) {
@@ -10,11 +10,11 @@ $(document).ready(function () {
       data.forEach(function (e) {
         const tr = $("<tr></tr>");
         tr.append("<td>" + e.id + "</td>");
-        tr.append("<td>" + e.nombreCompleto + "</td>");
-        tr.append("<td>" + e.email + "</td>");
-        tr.append("<td>" + e.documento + "</td>");
-        tr.append("<td>" + e.telefono + "</td>");
-        tr.append("<td>" + e.nombreParqueadero + "</td>");
+        tr.append("<td>" + e.placa + "</td>");
+        tr.append("<td>" + e.marca + "</td>");
+        tr.append("<td>" + e.color + "</td>");
+        tr.append("<td>" + e.nombreCliente + "</td>");
+        tr.append("<td>" + e.nombreTipoVehiculo + "</td>");
         tr.append(
           `<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-entidad="Cliente" data-bs-id="${e.id}" data-bs-nombre-completo="${e.nombreCompleto}" data-bs-documento="${e.documento}" data-bs-email="${e.email}" data-bs-telefono="${e.telefono}" data-bs-parquedero-id="${e.parqueaderoId}">Editar</button></td>`
         );
