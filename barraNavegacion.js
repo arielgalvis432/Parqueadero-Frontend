@@ -24,6 +24,7 @@ export function barraNavegacion() {
                 <li><a class="dropdown-item" href="parqueaderos.html">Parqueaderos</a></li>
                 <li><a class="dropdown-item" href="clientes.html">Clientes</a></li>
                 <li><a class="dropdown-item" href="vehiculo-tipos.html">Vehículo - Tipos</a></li>
+                <li><a class="dropdown-item" href="vehiculos.html">Vehículo</a></li>
                 <li><a class="dropdown-item" href="#">Another action</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Something else here</a></li>
