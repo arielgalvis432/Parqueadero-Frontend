@@ -16,7 +16,7 @@ $(document).ready(function () {
         tr.append("<td>" + e.nombreCliente + "</td>");
         tr.append("<td>" + e.nombreTipoVehiculo + "</td>");
         tr.append(
-          `<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-entidad="Cliente" data-bs-id="${e.id}" data-bs-nombre-completo="${e.nombreCompleto}" data-bs-documento="${e.documento}" data-bs-email="${e.email}" data-bs-telefono="${e.telefono}" data-bs-parquedero-id="${e.parqueaderoId}">Editar</button></td>`
+          `<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-entidad="Cliente" data-bs-id="${e.id}" data-bs-placa="${e.placa}" data-bs-marca="${e.marca}" data-bs-color="${e.color}" data-bs-cliente-id="${e.clienteId}" data-bs-tipo-vehiculo-id="${e.tipoVehiculoId}">Editar</button></td>`
         );
 
         tbyDatos.append(tr);
@@ -42,29 +42,32 @@ $(document).ready(function () {
       $("#nit").prop("disabled", true);
       const id = button.getAttribute("data-bs-id");
       const entidad = button.getAttribute("data-bs-entidad");
-      const nombreCompleto = button.getAttribute("data-bs-nombre-completo");
 
       const titulo = exampleModal.querySelector(".modal-title");
       titulo.textContent = entidad;
 
       $("#id").val(id);
-      $("#nombreCompleto").val(nombreCompleto);
-      $("#documento").val(button.getAttribute("data-bs-documento"));
-      $("#email").val(button.getAttribute("data-bs-email"));
-      $("#telefono").val(button.getAttribute("data-bs-telefono"));
+      $("#placa").val(button.getAttribute("data-bs-placa"));
+      $("#marca").val(button.getAttribute("data-bs-marca"));
+      $("#color").val(button.getAttribute("data-bs-color"));
+      $("#clienteId").val(button.getAttribute("data-bs-cliente-id"));
+      $("#tipoVehiculoId").val(button.getAttribute("data-bs-tipo-vehiculo-id"));
       
-      cargarParqueaderos(button.getAttribute("data-bs-parquedero-id"));
+      cargarClientes(button.getAttribute("data-bs-cliente-id"));
+      cargarTipoVehiculos(button.getAttribute("data-bs-tipo-vehiculo-id"));
     } else {
       const titulo = exampleModal.querySelector(".modal-title");
       titulo.textContent = "Nuevo Cliente";
 
       $("#id").val('');
-      $("#nombreCompleto").val('');
-      $("#documento").val('');
-      $("#email").val('');
-      $("#telefono").val('');
+      $("#placa").val('');
+      $("#marca").val('');
+      $("#color").val('');
+      $("#clienteId").val('');
+      $("#tipoVehiculoId").val('');
 
-      cargarParqueaderos(0);
+      cargarClientes(0);
+      cargarTipoVehiculos(0);
     }
   });
 
@@ -74,14 +77,16 @@ $(document).ready(function () {
     const operacion = $("#frmGuardar").attr("operacion");
 
     let id = operacion == "editar" ? $("#id").val() : 0;
-    const nombreCompleto = $("#nombreCompleto").val();
-    const documento = $("#documento").val();
-    const email = $("#email").val();
-    const telefono = $("#telefono").val();
-    const parqueaderoId = $("#parqueaderoId").val();
+    const placa = $("#placa").val();
+    const marca = $("#marca").val();
+    const color = $("#color").val();
+    const clienteId = $("#clienteId").val();
+    const vehiculoTipoId = $("#vehiculoTipoId").val();
+
+    console.log(id, placa, marca, color, clienteId, vehiculoTipoId);
 
     var settings = {
-      url: "http://localhost:8080/backend/api/cliente",
+      url: "http://localhost:8080/backend/api/vehiculo",
       method: operacion == "editar" ? "PUT" : "POST",
       timeout: 0,
       headers: {
@@ -89,39 +94,64 @@ $(document).ready(function () {
       },
       data: JSON.stringify({
         id: id,
-        nombreCompleto: nombreCompleto,
-        documento: documento,
-        email: email,
-        telefono: telefono,
-        parqueaderoId: parqueaderoId,
+        placa,
+        marca,
+        color,
+        clienteId,
+        tipoVehiculoId: vehiculoTipoId,
       }),
     };
 
     $.ajax(settings).done(function (response) {
+      console.log(response);
       location.reload();
     });
   });
 });
 
-function cargarParqueaderos(parqueaderoId) {
+function cargarClientes(clienteId) {
   $.ajax({
-    url: "http://localhost:8080/backend/api/parqueadero",
+    url: "http://localhost:8080/backend/api/cliente",
     type: "GET",
     dataType: "json",
     success: function (data) {
-      const parqueaderos = $("#parqueaderoId");
-      parqueaderos.empty();
+      let select = $("#clienteId");
+      select.empty();
+
+      // Recorrer el arreglo de objetos JSON que se encuentra en la propiedad 'data' del objeto JSON 'data':
+      data.forEach(function (e) {
+        const option = $("<option></option>");
+        option.val(e.id);
+        option.text(e.nombreCompleto);
+        select.append(option);
+      });
+
+      select.val(clienteId);
+    },
+    error: function (error) {
+      console.log("error", error);
+    },
+  });
+}
+
+function cargarTipoVehiculos(tipoVehiculoId) {
+  $.ajax({
+    url: "http://localhost:8080/backend/api/vehiculo-tipo",
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      let select = $("#vehiculoTipoId");
+      select.empty();
 
       // Recorrer el arreglo de objetos JSON que se encuentra en la propiedad 'data' del objeto JSON 'data':
       data.forEach(function (e) {
         const option = $("<option></option>");
         option.val(e.id);
         option.text(e.nombre);
-        if (e.id == parqueaderoId) {
-          option.attr("selected", "selected");
-        }
-        parqueaderos.append(option);
+        select.append(option);
       });
+
+      select.val(tipoVehiculoId);
     },
     error: function (error) {
       console.log("error", error);
