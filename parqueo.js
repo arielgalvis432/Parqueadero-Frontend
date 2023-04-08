@@ -57,17 +57,21 @@ $(document).ready(function () {
       cargarTipoVehiculos(button.getAttribute("data-bs-tipo-vehiculo-id"));
     } else {
       const titulo = exampleModal.querySelector(".modal-title");
-      titulo.textContent = "Nuevo Cliente";
+      titulo.textContent = "Nuevo Parqueo";
 
       $("#id").val('');
-      $("#placa").val('');
-      $("#marca").val('');
-      $("#color").val('');
-      $("#clienteId").val('');
-      $("#tipoVehiculoId").val('');
+      $('#fechaIncio').val('');
+      $('#horaInicio').val('');
+
+      $("#reserva").prop("checked", false);
+
+      // Select clienteId sin seleccionar:
+      $("#clienteId").val(0);
+      $("#vehiculoId").val(0);
+      $("#cubiculoId").val(0);
 
       cargarClientes(0);
-      cargarTipoVehiculos(0);
+      cargarCubiculos(0);
     }
   });
 
@@ -107,7 +111,36 @@ $(document).ready(function () {
       location.reload();
     });
   });
+
+  // Evento de cambio de selecci'on para el select de cliente:
+  $("#clienteId").change(function () {
+    const clienteId = $(this).val();
+    cargarVehiculos(clienteId);
+  });
 });
+
+function cargarVehiculos(clienteId) {
+  $.ajax({
+    url: `http://localhost:8080/backend/api/vehiculo/buscar-por-cliente-id?clienteId=${clienteId}`,
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      let select = $("#vehiculoId");
+      select.empty();
+
+      // Recorrer el arreglo de objetos JSON que se encuentra en la propiedad 'data' del objeto JSON 'data':
+      data.forEach(function (e) {
+        const option = $("<option></option>");
+        option.val(e.id);
+        option.text(e.placa);
+        select.append(option);
+      });
+    },
+    error: function (error) {
+      console.log("error", error);
+    },
+  });
+}
 
 function cargarClientes(clienteId) {
   $.ajax({
@@ -152,6 +185,32 @@ function cargarTipoVehiculos(tipoVehiculoId) {
       });
 
       select.val(tipoVehiculoId);
+    },
+    error: function (error) {
+      console.log("error", error);
+    },
+  });
+}
+
+function cargarCubiculos(cubiculoId) {
+  $.ajax({
+    url: "http://localhost:8080/backend/api/cubiculo",
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      console.log(data);
+      let select = $("#cubiculoId");
+      select.empty();
+
+      // Recorrer el arreglo de objetos JSON que se encuentra en la propiedad 'data' del objeto JSON 'data':
+      data.forEach(function (e) {
+        const option = $("<option></option>");
+        option.val(e.id);
+        option.text(e.nombre);
+        select.append(option);
+      });
+
+      select.val(cubiculoId);
     },
     error: function (error) {
       console.log("error", error);
