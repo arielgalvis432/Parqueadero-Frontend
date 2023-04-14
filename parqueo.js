@@ -1,43 +1,14 @@
 $(document).ready(function () {
-  $.ajax({
-    url: `http://localhost:8080/backend/api/parqueo`,
-    type: "GET",
-    dataType: "json",
-    success: function (data) {
-      let tbody = $("#tbyDatos");
-      tbody.empty();
-
-      if (data.length == 0) {
-        alert("No se encontraron registros");
-        return;
-      }
-
-      // Recorrer el arreglo de objetos JSON que se encuentra en la propiedad 'data' del objeto JSON 'data':
-      data.forEach(function (e) {
-        const tr = $("<tr></tr>");
-        tr.append(`<td>${e.id}</td>`);
-        tr.append(`<td>${e.fechaInicio}</td>`);
-        tr.append(`<td>${e.horaInicio}</td>`);
-        tr.append(`<td>${e.fechaFinal ? e.fechaFinal : 'N/D'}</td>`);
-        tr.append(`<td>${e.horaFinal ? e.horaFinal : 'N/D'}</td>`);
-        tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
-        tr.append(`<td>${e.estadoReserva == 1 ? "Activa" : "Inactiva"}</td>`);
-        tr.append(`<td>${e.placaVehiculo}</td>`);
-        tr.append(`<td>${e.nombreCliente}</td>`);
-        tr.append(`<td>${e.cubiculoId}</td>`);
-        tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion">Editar</button></td>`);
-        tbody.append(tr);
-      });
-    },
-    error: function (error) {
-      console.log("error", error);
-    },
-  });
+  cargarParqueos(false);
 
   $('#btnBuscarParqueosPorCliente').click(function () {
     const documento = prompt('Ingrese el documento del cliente:');
     
     buscarParqueosPorClienteDocumento(documento);
+  });
+
+  $('#btnListarReservas').click(function () {
+    cargarParqueos(true);
   });
 
   const exampleModal = document.getElementById("modalEdicion");
@@ -59,15 +30,13 @@ $(document).ready(function () {
       const titulo = exampleModal.querySelector(".modal-title");
       titulo.textContent = entidad;
 
-      $("#id").val(id);
-      $("#placa").val(button.getAttribute("data-bs-placa"));
-      $("#marca").val(button.getAttribute("data-bs-marca"));
-      $("#color").val(button.getAttribute("data-bs-color"));
-      $("#clienteId").val(button.getAttribute("data-bs-cliente-id"));
-      $("#tipoVehiculoId").val(button.getAttribute("data-bs-tipo-vehiculo-id"));
-      
-      cargarClientes(button.getAttribute("data-bs-cliente-id"));
-      cargarTipoVehiculos(button.getAttribute("data-bs-tipo-vehiculo-id"));
+      const parqueo = JSON.parse(button.getAttribute("data-bs-parqueo"));
+      console.log("🚀 ~ file: parqueo.js:34 ~ exampleModal.addEventListener ~ parqueo:", parqueo)
+
+      $("#id").val(parqueo.id);
+      $("#fechaInicio").val(parqueo.fechaInicio);
+      $("#horaInicio").val(parqueo.horaInicio);
+      $("#reserva").prop("checked", parqueo.reserva);
     } else {
       const titulo = exampleModal.querySelector(".modal-title");
       titulo.textContent = "Nuevo Parqueo";
@@ -253,12 +222,52 @@ function buscarParqueosPorClienteDocumento(documento) {
         tr.append(`<td>${e.fechaFinal ? e.fechaFinal : 'N/D'}</td>`);
         tr.append(`<td>${e.horaFinal ? e.horaFinal : 'N/D'}</td>`);
         tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
-        tr.append(`<td>${e.estadoReserva == 1 ? "Activa" : "Inactiva"}</td>`);
+        tr.append(`<td>${e.estadoReserva == 1 ? "Activa" : "No ocupada"}</td>`);
         tr.append(`<td>${e.placaVehiculo}</td>`);
         tr.append(`<td>${e.nombreCliente}</td>`);
         tr.append(`<td>${e.cubiculoId}</td>`);
-        tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion">Editar</button></td>`);
+        tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-my-object='{"name":"John", "age":30, "city":"New York"}'>Editar</button></td>`);
         tbody.append(tr);
+      });
+    },
+    error: function (error) {
+      console.log("error", error);
+    },
+  });
+}
+
+function cargarParqueos(esReserva) {
+  $.ajax({
+    url: `http://localhost:8080/backend/api/parqueo`,
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      let tbody = $("#tbyDatos");
+      tbody.empty();
+
+      if (data.length == 0) {
+        alert("No se encontraron registros");
+        return;
+      }
+
+      if (esReserva) {
+        data = data.filter((e) => e.reserva == 1);
+      }
+
+      data.forEach(function (e) {
+          const tr = $("<tr></tr>");
+          tr.append(`<td>${e.id}</td>`);
+          tr.append(`<td>${e.fechaInicio}</td>`);
+          tr.append(`<td>${e.horaInicio}</td>`);
+          tr.append(`<td>${e.fechaFinal ? e.fechaFinal : 'N/D'}</td>`);
+          tr.append(`<td>${e.horaFinal ? e.horaFinal : 'N/D'}</td>`);
+          tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
+          tr.append(`<td>${e.estadoReserva == 1 ? "Activa" : "No ocupada"}</td>`);
+          tr.append(`<td>${e.placaVehiculo}</td>`);
+          tr.append(`<td>${e.nombreCliente}</td>`);
+          tr.append(`<td>${e.cubiculoId}</td>`);
+          tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-parqueo='${JSON.stringify(e)}'>Editar</button></td>`);
+          tbody.append(tr);
       });
     },
     error: function (error) {
