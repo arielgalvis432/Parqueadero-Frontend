@@ -27,6 +27,12 @@ $(document).ready(function () {
     },
   });
 
+  $('#btnBuscarParqueosPorCliente').click(function () {
+    const documento = prompt('Ingrese el documento del cliente:');
+    
+    buscarParqueosPorClienteDocumento(documento);
+  });
+
   const exampleModal = document.getElementById("modalEdicion");
   exampleModal.addEventListener("show.bs.modal", (event) => {
     const button = event.relatedTarget;
@@ -81,16 +87,15 @@ $(document).ready(function () {
     const operacion = $("#frmGuardar").attr("operacion");
 
     let id = operacion == "editar" ? $("#id").val() : 0;
-    const placa = $("#placa").val();
-    const marca = $("#marca").val();
-    const color = $("#color").val();
-    const clienteId = $("#clienteId").val();
-    const vehiculoTipoId = $("#vehiculoTipoId").val();
-
-    console.log(id, placa, marca, color, clienteId, vehiculoTipoId);
+    const fechaInicio = $("#fechaInicio").val();
+    const horaInicio = $("#horaInicio").val();
+    const reserva = $("#reserva").prop("checked") ? 1 : 0;
+    const clienteId = parseInt($("#clienteId").val());
+    const vehiculoId = parseInt($("#vehiculoId").val());
+    const cubiculoId = parseInt($("#cubiculoId").val());
 
     var settings = {
-      url: "http://localhost:8080/backend/api/vehiculo",
+      url: "http://localhost:8080/backend/api/parqueo",
       method: operacion == "editar" ? "PUT" : "POST",
       timeout: 0,
       headers: {
@@ -98,11 +103,11 @@ $(document).ready(function () {
       },
       data: JSON.stringify({
         id: id,
-        placa,
-        marca,
-        color,
-        clienteId,
-        tipoVehiculoId: vehiculoTipoId,
+        fechaInicio: fechaInicio,
+        horaInicio: horaInicio,
+        reserva: reserva,
+        vehiculoId: vehiculoId,
+        cubiculoId: cubiculoId,
       }),
     };
 
@@ -211,6 +216,43 @@ function cargarCubiculos(cubiculoId) {
       });
 
       select.val(cubiculoId);
+    },
+    error: function (error) {
+      console.log("error", error);
+    },
+  });
+}
+
+function buscarParqueosPorClienteDocumento(documento) {
+  $.ajax({
+    url: `http://localhost:8080/backend/api/parqueo/buscar-por-cliente-documento?documento=${documento}`,
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      let tbody = $("#tbyDatos");
+      tbody.empty();
+
+      if (data.length == 0) {
+        alert("No se encontraron registros");
+        return;
+      }
+
+      // Recorrer el arreglo de objetos JSON que se encuentra en la propiedad 'data' del objeto JSON 'data':
+      data.forEach(function (e) {
+        const tr = $("<tr></tr>");
+        tr.append(`<td>${e.id}</td>`);
+        tr.append(`<td>${e.fechaInicio}</td>`);
+        tr.append(`<td>${e.horaInicio}</td>`);
+        tr.append(`<td>${e.fechaFinal ? e.fechaFinal : 'N/D'}</td>`);
+        tr.append(`<td>${e.horaFinal ? e.horaFinal : 'N/D'}</td>`);
+        tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
+        tr.append(`<td>${e.estadoReserva == 1 ? "Activa" : "Inactiva"}</td>`);
+        tr.append(`<td>${e.placaVehiculo}</td>`);
+        tr.append(`<td>${e.nombreCliente}</td>`);
+        tr.append(`<td>${e.cubiculoId}</td>`);
+        tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion">Editar</button></td>`);
+        tbody.append(tr);
+      });
     },
     error: function (error) {
       console.log("error", error);

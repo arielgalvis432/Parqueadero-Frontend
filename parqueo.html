@@ -14,8 +14,11 @@
         <div id="barraNavegacion"></div>
         <h3>Clientes</h3>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-3">
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEdicion" id="btnAgregar" data-bs-operacion="crear">Crear</button>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-secondary" id="btnBuscarParqueosPorCliente">Buscar por cliente</button>
             </div>
         </div>
         <table class="table striped">
@@ -29,6 +32,7 @@
                     <th scope="col">¿Es reserva?</th>
                     <th scope="col">Estado reserva</th>
                     <th scope="col">Placa</th>
+                    <th scope="col">Nombre cliente</th>
                     <th scope="col">Cubículo</th>
                     <th scope="col">Acciones</th>
                 </tr>
