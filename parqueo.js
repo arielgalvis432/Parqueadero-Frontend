@@ -1,25 +1,32 @@
 $(document).ready(function () {
   $.ajax({
-    url: "http://localhost:8080/backend/api/vehiculo",
+    url: `http://localhost:8080/backend/api/parqueo`,
     type: "GET",
     dataType: "json",
     success: function (data) {
-      let tbyDatos = $("#tbyDatos");
+      let tbody = $("#tbyDatos");
+      tbody.empty();
+
+      if (data.length == 0) {
+        alert("No se encontraron registros");
+        return;
+      }
 
       // Recorrer el arreglo de objetos JSON que se encuentra en la propiedad 'data' del objeto JSON 'data':
       data.forEach(function (e) {
         const tr = $("<tr></tr>");
-        tr.append("<td>" + e.id + "</td>");
-        tr.append("<td>" + e.placa + "</td>");
-        tr.append("<td>" + e.marca + "</td>");
-        tr.append("<td>" + e.color + "</td>");
-        tr.append("<td>" + e.nombreCliente + "</td>");
-        tr.append("<td>" + e.nombreTipoVehiculo + "</td>");
-        tr.append(
-          `<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-entidad="Cliente" data-bs-id="${e.id}" data-bs-placa="${e.placa}" data-bs-marca="${e.marca}" data-bs-color="${e.color}" data-bs-cliente-id="${e.clienteId}" data-bs-tipo-vehiculo-id="${e.tipoVehiculoId}">Editar</button></td>`
-        );
-
-        tbyDatos.append(tr);
+        tr.append(`<td>${e.id}</td>`);
+        tr.append(`<td>${e.fechaInicio}</td>`);
+        tr.append(`<td>${e.horaInicio}</td>`);
+        tr.append(`<td>${e.fechaFinal ? e.fechaFinal : 'N/D'}</td>`);
+        tr.append(`<td>${e.horaFinal ? e.horaFinal : 'N/D'}</td>`);
+        tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
+        tr.append(`<td>${e.estadoReserva == 1 ? "Activa" : "Inactiva"}</td>`);
+        tr.append(`<td>${e.placaVehiculo}</td>`);
+        tr.append(`<td>${e.nombreCliente}</td>`);
+        tr.append(`<td>${e.cubiculoId}</td>`);
+        tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion">Editar</button></td>`);
+        tbody.append(tr);
       });
     },
     error: function (error) {
