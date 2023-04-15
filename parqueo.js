@@ -246,6 +246,7 @@ function buscarParqueosPorClienteDocumento(documento) {
 }
 
 function cargarParqueos(esReserva) {
+  $.LoadingOverlay('show');
   $.ajax({
     url: `http://localhost:8080/backend/api/parqueo`,
     type: "GET",
@@ -278,9 +279,12 @@ function cargarParqueos(esReserva) {
           tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-parqueo='${JSON.stringify(e)}'>Editar</button></td>`);
           tbody.append(tr);
       });
+
+      $.LoadingOverlay('hide');
     },
     error: function (error) {
       console.log("error", error);
+      $.LoadingOverlay('hide');
     },
   });
 }
