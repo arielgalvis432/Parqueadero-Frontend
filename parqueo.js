@@ -37,6 +37,10 @@ $(document).ready(function () {
       $("#fechaInicio").val(parqueo.fechaInicio);
       $("#horaInicio").val(parqueo.horaInicio);
       $("#reserva").prop("checked", parqueo.reserva);
+
+      cargarClientes(parqueo.clienteId);
+      cargarVehiculos(parqueo.clienteId, parqueo.placaVehiculo);
+      cargarCubiculos(parqueo.cubiculoId);
     } else {
       const titulo = exampleModal.querySelector(".modal-title");
       titulo.textContent = "Nuevo Parqueo";
@@ -100,7 +104,7 @@ $(document).ready(function () {
   });
 });
 
-function cargarVehiculos(clienteId) {
+function cargarVehiculos(clienteId, placa = null) {
   $.ajax({
     url: `http://localhost:8080/backend/api/vehiculo/buscar-por-cliente-id?clienteId=${clienteId}`,
     type: "GET",
@@ -116,6 +120,12 @@ function cargarVehiculos(clienteId) {
         option.text(e.placa);
         select.append(option);
       });
+
+      if (placa != null) {
+        // Buscar por texto el option que tenga el valor de la placa:
+        const option = select.find(`option:contains(${placa})`);
+        option.prop("selected", true);
+      }
     },
     error: function (error) {
       console.log("error", error);
