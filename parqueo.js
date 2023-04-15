@@ -70,7 +70,6 @@ $(document).ready(function () {
     const fechaInicio = $("#fechaInicio").val();
     const horaInicio = $("#horaInicio").val();
     const reserva = $("#reserva").prop("checked") ? 1 : 0;
-    const clienteId = parseInt($("#clienteId").val());
     const vehiculoId = parseInt($("#vehiculoId").val());
     const cubiculoId = parseInt($("#cubiculoId").val());
 
