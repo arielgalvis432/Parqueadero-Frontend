@@ -61,39 +61,24 @@ $(document).ready(function () {
     }
   });
 
-  $("#frmGuardar").submit(function (e) {
-    e.preventDefault();
+  const modalPago = document.getElementById("modalPago");
+  modalPago.addEventListener("show.bs.modal", (event) => {
+    const button = event.relatedTarget;
 
-    const operacion = $("#frmGuardar").attr("operacion");
+    // Leer los datos de la propiedad data-bs-parqueo:
+    const parqueo = JSON.parse(button.getAttribute("data-bs-parqueo"));
 
-    let id = operacion == "editar" ? $("#id").val() : 0;
-    const fechaInicio = $("#fechaInicio").val();
-    const horaInicio = $("#horaInicio").val();
-    const reserva = $("#reserva").prop("checked") ? 1 : 0;
-    const vehiculoId = parseInt($("#vehiculoId").val());
-    const cubiculoId = parseInt($("#cubiculoId").val());
+    // Crear un objeto moment con la fechaInicio y horaInicio:
+    const fechaHoraInicio = moment(parqueo.fechaInicio + ' ' + parqueo.horaInicio, 'YYYY-MM-DD HH:mm:ss');
+    console.log("🚀 ~ file: parqueo.js:73 ~ modalPago.addEventListener ~ fechaInicio:", fechaHoraInicio)
+    
+    const fechaHoraFinal = moment();
 
-    var settings = {
-      url: "http://localhost:8080/backend/api/parqueo",
-      method: operacion == "editar" ? "PUT" : "POST",
-      timeout: 0,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: JSON.stringify({
-        id: id,
-        fechaInicio: fechaInicio,
-        horaInicio: horaInicio,
-        reserva: reserva,
-        vehiculoId: vehiculoId,
-        cubiculoId: cubiculoId,
-      }),
-    };
+    const horas = fechaHoraFinal.diff(fechaHoraInicio, 'hours');
+    console.log("🚀 ~ file: parqueo.js:78 ~ modalPago.addEventListener ~ horas:", horas)
 
-    $.ajax(settings).done(function (response) {
-      console.log(response);
-      location.reload();
-    });
+    $('#totalPagar').val(horas * parqueo.tarifa);
+    $('#totalTiempo').val(horas);
   });
 
   // Evento de cambio de selecci'on para el select de cliente:
