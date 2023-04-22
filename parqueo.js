@@ -235,7 +235,8 @@ function buscarParqueosPorClienteDocumento(documento) {
         tr.append(`<td>${e.placaVehiculo}</td>`);
         tr.append(`<td>${e.nombreCliente}</td>`);
         tr.append(`<td>${e.cubiculoId}</td>`);
-        tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-my-object='{"name":"John", "age":30, "city":"New York"}'>Editar</button></td>`);
+        tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-parqueo='${JSON.stringify(e)}'>Editar</button></td>`);
+        tr.append(`<td><button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalPago" data-bs-parqueo='${JSON.stringify(e)}'>Pagar</button></td>`);
         tbody.append(tr);
       });
     },
@@ -276,7 +277,8 @@ function cargarParqueos(esReserva) {
           tr.append(`<td>${e.placaVehiculo}</td>`);
           tr.append(`<td>${e.nombreCliente}</td>`);
           tr.append(`<td>${e.cubiculoId}</td>`);
-          tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-parqueo='${JSON.stringify(e)}'>Editar</button></td>`);
+          tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-parqueo='${JSON.stringify(e)}'>Editar</button> <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalPago" data-bs-parqueo='${JSON.stringify(e)}'>Pagar</button></td>`);
+
           tbody.append(tr);
       });
 
