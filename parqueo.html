@@ -95,6 +95,32 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalPago" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Pago</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="frmPagar">
+                        <div class="mb-3">
+                            <label for="totalPagar" class="col-form-label">Total a pagar:</label>
+                            <input type="number" class="form-control" id="totalPagar" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="totalTiempo" class="col-form-label">Total tiempo:</label>
+                            <input type="text" class="form-control" id="totalTiempo" disabled>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Pagar</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
@@ -103,6 +129,7 @@
         integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i"
         crossorigin="anonymous"></script>
     <script type="module" src="public/loadingoverlay.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="module" src="/main.js"></script>
     <script src="public/jquery.min.js"></script>
     <script type="module" src="parqueo.js"></script>
