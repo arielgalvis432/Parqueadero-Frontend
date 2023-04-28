@@ -65,19 +65,15 @@ $(document).ready(function () {
   modalPago.addEventListener("show.bs.modal", (event) => {
     const button = event.relatedTarget;
 
-    // Leer los datos de la propiedad data-bs-parqueo:
     const parqueo = JSON.parse(button.getAttribute("data-bs-parqueo"));
 
-    // Crear un objeto moment con la fechaInicio y horaInicio:
     const fechaHoraInicio = moment(parqueo.fechaInicio + ' ' + parqueo.horaInicio, 'YYYY-MM-DD HH:mm:ss');
-    console.log("🚀 ~ file: parqueo.js:73 ~ modalPago.addEventListener ~ fechaInicio:", fechaHoraInicio)
     
     const fechaHoraFinal = moment();
 
     const horas = fechaHoraFinal.diff(fechaHoraInicio, 'hours');
-    console.log("🚀 ~ file: parqueo.js:78 ~ modalPago.addEventListener ~ horas:", horas)
 
-    $('#totalPagar').val(horas * parqueo.tarifa);
+    $('#totalPagar').val(Dinero({ amount: (horas * parqueo.tarifa * 100) }).toFormat('$0,0'));
     $('#totalTiempo').val(horas);
   });
 
