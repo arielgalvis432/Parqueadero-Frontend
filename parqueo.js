@@ -75,6 +75,8 @@ $(document).ready(function () {
 
     $('#totalPagar').val(Dinero({ amount: (horas * parqueo.tarifa * 100) }).toFormat('$0,0'));
     $('#totalTiempo').val(horas);
+
+    cargarFormasPago();
   });
 
   // Evento de cambio de selecci'on para el select de cliente:
@@ -268,6 +270,29 @@ function cargarParqueos(esReserva) {
     error: function (error) {
       console.log("error", error);
       $.LoadingOverlay('hide');
+    },
+  });
+}
+
+function cargarFormasPago() {
+  $.ajax({
+    url: "http://localhost:8080/backend/api/forma-pago",
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      let select = $("#formaPagoId");
+      select.empty();
+
+      // Recorrer el arreglo de objetos JSON que se encuentra en la propiedad 'data' del objeto JSON 'data':
+      data.forEach(function (e) {
+        const option = $("<option></option>");
+        option.val(e.id);
+        option.text(e.nombre);
+        select.append(option);
+      });
+    },
+    error: function (error) {
+      console.log("error", error);
     },
   });
 }
