@@ -1,13 +1,13 @@
 $(document).ready(function () {
   cargarParqueos(false);
 
-  $('#btnBuscarParqueosPorCliente').click(function () {
-    const documento = prompt('Ingrese el documento del cliente:');
-    
+  $("#btnBuscarParqueosPorCliente").click(function () {
+    const documento = prompt("Ingrese el documento del cliente:");
+
     buscarParqueosPorClienteDocumento(documento);
   });
 
-  $('#btnListarReservas').click(function () {
+  $("#btnListarReservas").click(function () {
     cargarParqueos(true);
   });
 
@@ -31,7 +31,10 @@ $(document).ready(function () {
       titulo.textContent = entidad;
 
       const parqueo = JSON.parse(button.getAttribute("data-bs-parqueo"));
-      console.log("🚀 ~ file: parqueo.js:34 ~ exampleModal.addEventListener ~ parqueo:", parqueo)
+      console.log(
+        "🚀 ~ file: parqueo.js:34 ~ exampleModal.addEventListener ~ parqueo:",
+        parqueo
+      );
 
       $("#id").val(parqueo.id);
       $("#fechaInicio").val(parqueo.fechaInicio);
@@ -45,9 +48,9 @@ $(document).ready(function () {
       const titulo = exampleModal.querySelector(".modal-title");
       titulo.textContent = "Nuevo Parqueo";
 
-      $("#id").val('');
-      $('#fechaIncio').val('');
-      $('#horaInicio').val('');
+      $("#id").val("");
+      $("#fechaIncio").val("");
+      $("#horaInicio").val("");
 
       $("#reserva").prop("checked", false);
 
@@ -67,16 +70,21 @@ $(document).ready(function () {
 
     const parqueo = JSON.parse(button.getAttribute("data-bs-parqueo"));
 
-    $('#parqueoIdPagar').val(parqueo.id);
+    $("#parqueoIdPagar").val(parqueo.id);
 
-    const fechaHoraInicio = moment(parqueo.fechaInicio + ' ' + parqueo.horaInicio, 'YYYY-MM-DD HH:mm:ss');
-    
+    const fechaHoraInicio = moment(
+      parqueo.fechaInicio + " " + parqueo.horaInicio,
+      "YYYY-MM-DD HH:mm:ss"
+    );
+
     const fechaHoraFinal = moment();
 
-    const horas = fechaHoraFinal.diff(fechaHoraInicio, 'hours');
+    const horas = fechaHoraFinal.diff(fechaHoraInicio, "hours");
 
-    $('#totalPagar').val(Dinero({ amount: (horas * parqueo.tarifa * 100) }).toFormat('$0,0'));
-    $('#totalTiempo').val(horas);
+    $("#totalPagar").val(
+      Dinero({ amount: horas * parqueo.tarifa * 100 }).toFormat("$0,0")
+    );
+    $("#totalTiempo").val(horas);
 
     cargarFormasPago();
   });
@@ -87,7 +95,8 @@ $(document).ready(function () {
     cargarVehiculos(clienteId);
   });
 
-  $('#frmPagar').submit(efectuarPago);
+  $("#frmPagar").submit(efectuarPago);
+  $("#frmGuardar").submit(guardarParqueo);
 });
 
 function cargarVehiculos(clienteId, placa = null) {
@@ -215,14 +224,24 @@ function buscarParqueosPorClienteDocumento(documento) {
         tr.append(`<td>${e.id}</td>`);
         tr.append(`<td>${e.fechaInicio}</td>`);
         tr.append(`<td>${e.horaInicio}</td>`);
-        tr.append(`<td>${e.fechaFinal ? e.fechaFinal : 'N/D'}</td>`);
-        tr.append(`<td>${e.horaFinal ? e.horaFinal : 'N/D'}</td>`);
+        tr.append(`<td>${e.fechaFinal ? e.fechaFinal : "N/D"}</td>`);
+        tr.append(`<td>${e.horaFinal ? e.horaFinal : "N/D"}</td>`);
         tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
         tr.append(`<td>${e.fechaFinal ? "Activa" : "No ocupada"}</td>`);
         tr.append(`<td>${e.placaVehiculo}</td>`);
         tr.append(`<td>${e.nombreCliente}</td>`);
         tr.append(`<td>${e.cubiculoId}</td>`);
-        tr.append(`<td><button ${!e.fechaFinal ? '' : 'disabled'} class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-parqueo='${JSON.stringify(e)}'>Editar</button> <button class="btn btn-success" ${!e.fechaFinal ? '' : 'disabled'} data-bs-toggle="modal" data-bs-target="#modalPago" data-bs-parqueo='${JSON.stringify(e)}'>Pagar</button></td>`);
+        tr.append(
+          `<td><button ${
+            !e.fechaFinal ? "" : "disabled"
+          } class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-parqueo='${JSON.stringify(
+            e
+          )}'>Editar</button> <button class="btn btn-success" ${
+            !e.fechaFinal ? "" : "disabled"
+          } data-bs-toggle="modal" data-bs-target="#modalPago" data-bs-parqueo='${JSON.stringify(
+            e
+          )}'>Pagar</button></td>`
+        );
         tbody.append(tr);
       });
     },
@@ -233,7 +252,7 @@ function buscarParqueosPorClienteDocumento(documento) {
 }
 
 function cargarParqueos(esReserva) {
-  $.LoadingOverlay('show');
+  $.LoadingOverlay("show");
   $.ajax({
     url: `http://localhost:8080/backend/api/parqueo`,
     type: "GET",
@@ -252,27 +271,37 @@ function cargarParqueos(esReserva) {
       }
 
       data.forEach(function (e) {
-          const tr = $("<tr></tr>");
-          tr.append(`<td>${e.id}</td>`);
-          tr.append(`<td>${e.fechaInicio}</td>`);
-          tr.append(`<td>${e.horaInicio}</td>`);
-          tr.append(`<td>${e.fechaFinal ? e.fechaFinal : 'N/D'}</td>`);
-          tr.append(`<td>${e.horaFinal ? e.horaFinal : 'N/D'}</td>`);
-          tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
-          tr.append(`<td>${e.fechaFinal ? "Ocupada" : "No ocupada"}</td>`);
-          tr.append(`<td>${e.placaVehiculo}</td>`);
-          tr.append(`<td>${e.nombreCliente}</td>`);
-          tr.append(`<td>${e.cubiculoId}</td>`);
-          tr.append(`<td><button ${!e.fechaFinal ? '' : 'disabled'} class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-parqueo='${JSON.stringify(e)}'>Editar</button> <button class="btn btn-success" ${!e.fechaFinal ? '' : 'disabled'} data-bs-toggle="modal" data-bs-target="#modalPago" data-bs-parqueo='${JSON.stringify(e)}'>Pagar</button></td>`);
+        const tr = $("<tr></tr>");
+        tr.append(`<td>${e.id}</td>`);
+        tr.append(`<td>${e.fechaInicio}</td>`);
+        tr.append(`<td>${e.horaInicio}</td>`);
+        tr.append(`<td>${e.fechaFinal ? e.fechaFinal : "N/D"}</td>`);
+        tr.append(`<td>${e.horaFinal ? e.horaFinal : "N/D"}</td>`);
+        tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
+        tr.append(`<td>${e.fechaFinal ? "Ocupada" : "No ocupada"}</td>`);
+        tr.append(`<td>${e.placaVehiculo}</td>`);
+        tr.append(`<td>${e.nombreCliente}</td>`);
+        tr.append(`<td>${e.cubiculoId}</td>`);
+        tr.append(
+          `<td><button ${
+            !e.fechaFinal ? "" : "disabled"
+          } class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-parqueo='${JSON.stringify(
+            e
+          )}'>Editar</button> <button class="btn btn-success" ${
+            !e.fechaFinal ? "" : "disabled"
+          } data-bs-toggle="modal" data-bs-target="#modalPago" data-bs-parqueo='${JSON.stringify(
+            e
+          )}'>Pagar</button></td>`
+        );
 
-          tbody.append(tr);
+        tbody.append(tr);
       });
 
-      $.LoadingOverlay('hide');
+      $.LoadingOverlay("hide");
     },
     error: function (error) {
       console.log("error", error);
-      $.LoadingOverlay('hide');
+      $.LoadingOverlay("hide");
     },
   });
 }
@@ -306,7 +335,6 @@ function efectuarPago() {
   let totalPagar = $("#totalPagar").val();
   const usuarioId = 1;
 
-  // Remover todos los $ y las comas (,):
   totalPagar = totalPagar.replace(/\$|,/g, "");
 
   $.ajax({
@@ -321,12 +349,86 @@ function efectuarPago() {
       usuarioId: usuarioId,
     }),
     success: function (data) {
-      alert("Pago efectuado con éxito");
-      $("#modalPago").modal("hide");
-      cargarParqueos(false);
+      console.log("data", data);
+      Swal.fire("Pago realizado", "Pago realizado con éxito", "success");
+      //$("#modalPago").modal("hide");
+      //cargarParqueos(false);
     },
     error: function (error) {
       console.log("error", error);
     },
   });
+}
+
+function guardarParqueo(event) {
+  event.preventDefault();
+
+  const operacion = $(this).attr("operacion");
+
+  const fechaInicio = $("#fechaInicio").val();
+  const horaInicio = $("#horaInicio").val();
+  const esReserva = $("#reserva").is(":checked") ? 1 : 0;
+  const vehiculoId = $("#vehiculoId").val();
+  const cubiculoId = $("#cubiculoId").val();
+
+  if (operacion == "crear") {
+    // Guarda un nuevo parqueo en la base de datos:
+    $.ajax({
+      url: "http://localhost:8080/backend/api/parqueo",
+      type: "POST",
+      dataType: "json",
+      contentType: "application/json",
+      data: JSON.stringify({
+        fechaInicio: fechaInicio,
+        horaInicio: horaInicio,
+        reserva: esReserva,
+        vehiculoId: vehiculoId,
+        cubiculoId: cubiculoId,
+      }),
+    })
+      .done(function (data) {
+        Swal.fire(
+          "Parqueo guardado",
+          "Parqueo guardado con éxito",
+          "success"
+        ).then((result) => {
+          $("#modalEdicion").modal("hide");
+          cargarParqueos(false);
+        });
+      })
+      .fail(function (error) {
+        console.log("error", error);
+      });
+  } else {
+    // Edita un parqueo en la base de datos:
+    const parqueoId = $("#parqueoId").val();
+
+    $.ajax({
+      url: `http://localhost:8080/backend/api/parqueo`,
+      type: "PUT",
+      dataType: "json",
+      contentType: "application/json",
+      data: JSON.stringify({
+        id: parqueoId,
+        fechaInicio: fechaInicio,
+        horaInicio: horaInicio,
+        reserva: esReserva,
+        vehiculoId: vehiculoId,
+        cubiculoId: cubiculoId,
+      }),
+    })
+      .done(function (data) {
+        Swal.fire(
+          "Parqueo editado",
+          "Parqueo editado con éxito",
+          "success"
+        ).then((result) => {
+          $("#modalEdicion").modal("hide");
+          cargarParqueos(false);
+        });
+      })
+      .fail(function (error) {
+        console.log("error", error);
+      });
+  }
 }
