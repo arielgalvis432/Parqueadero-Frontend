@@ -67,6 +67,8 @@ $(document).ready(function () {
 
     const parqueo = JSON.parse(button.getAttribute("data-bs-parqueo"));
 
+    $('#parqueoIdPagar').val(parqueo.id);
+
     const fechaHoraInicio = moment(parqueo.fechaInicio + ' ' + parqueo.horaInicio, 'YYYY-MM-DD HH:mm:ss');
     
     const fechaHoraFinal = moment();
@@ -84,6 +86,8 @@ $(document).ready(function () {
     const clienteId = $(this).val();
     cargarVehiculos(clienteId);
   });
+
+  $('#frmPagar').submit(efectuarPago);
 });
 
 function cargarVehiculos(clienteId, placa = null) {
@@ -214,12 +218,11 @@ function buscarParqueosPorClienteDocumento(documento) {
         tr.append(`<td>${e.fechaFinal ? e.fechaFinal : 'N/D'}</td>`);
         tr.append(`<td>${e.horaFinal ? e.horaFinal : 'N/D'}</td>`);
         tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
-        tr.append(`<td>${e.estadoReserva == 1 ? "Activa" : "No ocupada"}</td>`);
+        tr.append(`<td>${e.fechaFinal ? "Activa" : "No ocupada"}</td>`);
         tr.append(`<td>${e.placaVehiculo}</td>`);
         tr.append(`<td>${e.nombreCliente}</td>`);
         tr.append(`<td>${e.cubiculoId}</td>`);
-        tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-parqueo='${JSON.stringify(e)}'>Editar</button></td>`);
-        tr.append(`<td><button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalPago" data-bs-parqueo='${JSON.stringify(e)}'>Pagar</button></td>`);
+        tr.append(`<td><button ${!e.fechaFinal ? '' : 'disabled'} class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-parqueo='${JSON.stringify(e)}'>Editar</button> <button class="btn btn-success" ${!e.fechaFinal ? '' : 'disabled'} data-bs-toggle="modal" data-bs-target="#modalPago" data-bs-parqueo='${JSON.stringify(e)}'>Pagar</button></td>`);
         tbody.append(tr);
       });
     },
@@ -256,11 +259,11 @@ function cargarParqueos(esReserva) {
           tr.append(`<td>${e.fechaFinal ? e.fechaFinal : 'N/D'}</td>`);
           tr.append(`<td>${e.horaFinal ? e.horaFinal : 'N/D'}</td>`);
           tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
-          tr.append(`<td>${e.estadoReserva == 1 ? "Activa" : "No ocupada"}</td>`);
+          tr.append(`<td>${e.fechaFinal ? "Ocupada" : "No ocupada"}</td>`);
           tr.append(`<td>${e.placaVehiculo}</td>`);
           tr.append(`<td>${e.nombreCliente}</td>`);
           tr.append(`<td>${e.cubiculoId}</td>`);
-          tr.append(`<td><button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-parqueo='${JSON.stringify(e)}'>Editar</button> <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalPago" data-bs-parqueo='${JSON.stringify(e)}'>Pagar</button></td>`);
+          tr.append(`<td><button ${!e.fechaFinal ? '' : 'disabled'} class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdicion" data-bs-operacion="editar" data-bs-parqueo='${JSON.stringify(e)}'>Editar</button> <button class="btn btn-success" ${!e.fechaFinal ? '' : 'disabled'} data-bs-toggle="modal" data-bs-target="#modalPago" data-bs-parqueo='${JSON.stringify(e)}'>Pagar</button></td>`);
 
           tbody.append(tr);
       });
@@ -290,6 +293,37 @@ function cargarFormasPago() {
         option.text(e.nombre);
         select.append(option);
       });
+    },
+    error: function (error) {
+      console.log("error", error);
+    },
+  });
+}
+
+function efectuarPago() {
+  const parqueoIdPagar = $("#parqueoIdPagar").val();
+  const formaPagoId = $("#formaPagoId").val();
+  let totalPagar = $("#totalPagar").val();
+  const usuarioId = 1;
+
+  // Remover todos los $ y las comas (,):
+  totalPagar = totalPagar.replace(/\$|,/g, "");
+
+  $.ajax({
+    url: "http://localhost:8080/backend/api/factura",
+    type: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: JSON.stringify({
+      parqueoId: parqueoIdPagar,
+      formaPagoId: formaPagoId,
+      total: totalPagar,
+      usuarioId: usuarioId,
+    }),
+    success: function (data) {
+      alert("Pago efectuado con éxito");
+      $("#modalPago").modal("hide");
+      cargarParqueos(false);
     },
     error: function (error) {
       console.log("error", error);
