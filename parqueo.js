@@ -400,8 +400,7 @@ function guardarParqueo(event) {
         console.log("error", error);
       });
   } else {
-    // Edita un parqueo en la base de datos:
-    const parqueoId = $("#parqueoId").val();
+    const parqueoId = $("#id").val();
 
     $.ajax({
       url: `http://localhost:8080/backend/api/parqueo`,
