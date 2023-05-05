@@ -89,6 +89,14 @@ $(document).ready(function () {
     cargarFormasPago();
   });
 
+  document.querySelector('#modalCancelacion').addEventListener('show.bs.modal', (event) => {
+    const button = event.relatedTarget;
+
+    const parqueo = JSON.parse(button.getAttribute("data-bs-parqueo"));
+
+    $("#parqueoIdCancelar").val(parqueo.id);
+  });
+
   // Evento de cambio de selecci'on para el select de cliente:
   $("#clienteId").change(function () {
     const clienteId = $(this).val();
@@ -97,6 +105,8 @@ $(document).ready(function () {
 
   $("#frmPagar").submit(efectuarPago);
   $("#frmGuardar").submit(guardarParqueo);
+
+  $('#frmCancelar').submit(cancelarParqueo);
 });
 
 function cargarVehiculos(clienteId, placa = null) {
@@ -240,7 +250,13 @@ function buscarParqueosPorClienteDocumento(documento) {
             !e.fechaFinal ? "" : "disabled"
           } data-bs-toggle="modal" data-bs-target="#modalPago" data-bs-parqueo='${JSON.stringify(
             e
-          )}'>Pagar</button></td>`
+          )}'>Pagar</button>
+          <button class="btn btn-success" ${
+            !e.fechaFinal ? "" : "disabled"
+          } data-bs-toggle="modal" data-bs-target="#modalCancelacion" data-bs-parqueo='${JSON.stringify(
+            e
+          )}'>Cancelar</button>
+          </td>`
         );
         tbody.append(tr);
       });
@@ -291,7 +307,13 @@ function cargarParqueos(esReserva) {
             !e.fechaFinal ? "" : "disabled"
           } data-bs-toggle="modal" data-bs-target="#modalPago" data-bs-parqueo='${JSON.stringify(
             e
-          )}'>Pagar</button></td>`
+          )}'>Pagar</button>
+          <button class="btn btn-danger" ${
+            !e.fechaFinal ? "" : "disabled"
+          } data-bs-toggle="modal" data-bs-target="#modalCancelacion" data-bs-parqueo='${JSON.stringify(
+            e
+          )}'>Cancelar</button>
+          </td>`
         );
 
         tbody.append(tr);
@@ -430,4 +452,34 @@ function guardarParqueo(event) {
         console.log("error", error);
       });
   }
+}
+
+function cancelarParqueo(event) {
+  event.preventDefault();
+
+  alert('ok...')
+
+  const parqueoId = $("#parqueoIdCancelar").val();
+
+  alert(parqueoId);
+
+  // $.ajax({
+  //   url: `http://localhost:8080/backend/api/parqueo/${parqueoId}`,
+  //   type: "DELETE",
+  //   dataType: "json",
+  //   contentType: "application/json",
+  // })
+  //   .done(function (data) {
+  //     Swal.fire(
+  //       "Parqueo cancelado",
+  //       "Parqueo cancelado con éxito",
+  //       "success"
+  //     ).then((result) => {
+  //       $("#modalCancelacion").modal("hide");
+  //       cargarParqueos(false);
+  //     });
+  //   })
+  //   .fail(function (error) {
+  //     console.log("error", error);
+  //   });
 }
