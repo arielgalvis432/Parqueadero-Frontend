@@ -457,29 +457,23 @@ function guardarParqueo(event) {
 function cancelarParqueo(event) {
   event.preventDefault();
 
-  alert('ok...')
-
   const parqueoId = $("#parqueoIdCancelar").val();
 
-  alert(parqueoId);
-
-  // $.ajax({
-  //   url: `http://localhost:8080/backend/api/parqueo/${parqueoId}`,
-  //   type: "DELETE",
-  //   dataType: "json",
-  //   contentType: "application/json",
-  // })
-  //   .done(function (data) {
-  //     Swal.fire(
-  //       "Parqueo cancelado",
-  //       "Parqueo cancelado con éxito",
-  //       "success"
-  //     ).then((result) => {
-  //       $("#modalCancelacion").modal("hide");
-  //       cargarParqueos(false);
-  //     });
-  //   })
-  //   .fail(function (error) {
-  //     console.log("error", error);
-  //   });
+  $.ajax({
+    url: `http://localhost:8080/backend/api/parqueo/?id=${parqueoId}`,
+    type: "DELETE"
+  })
+    .done(function (data) {
+      Swal.fire(
+        "Parqueo cancelado",
+        "Parqueo cancelado con éxito",
+        "success"
+      ).then((result) => {
+        $("#modalCancelacion").modal("hide");
+        cargarParqueos(false);
+      });
+    })
+    .fail(function (error) {
+      console.log("error", error);
+    });
 }
