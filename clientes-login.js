@@ -18,7 +18,9 @@ function iniciarSesionCliente(event) {
     success: function (respuesta) {
       console.log(respuesta);
       if (respuesta.id !== 0) {
-        localStorage.setItem("documento", documento);
+        localStorage.setItem("documento", respuesta.documento);
+        localStorage.setItem("clienteId", respuesta.id);
+        localStorage.setItem("tipoUsuario", "cliente");
         window.location.href = "parqueo.html";
       } else {
         alert("Sus datos de inicio de sesión son incorrectos");

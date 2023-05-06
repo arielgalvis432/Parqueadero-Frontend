@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  validarRol();
   cargarParqueos(false);
 
   $("#btnBuscarParqueosPorCliente").click(function () {
@@ -476,4 +477,12 @@ function cancelarParqueo(event) {
     .fail(function (error) {
       console.log("error", error);
     });
+}
+
+function validarRol() {
+  let tipoUsuario = localStorage.getItem("tipoUsuario");
+
+  if (tipoUsuario && tipoUsuario == "cliente") {
+    $("#btnBuscarParqueosPorCliente").hide();
+  }
 }
