@@ -33,6 +33,9 @@ export function barraNavegacion() {
             <li class="nav-item">
                 <a class="nav-link" href="clientes-login.html">Clientes</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="cerrarSesion">Cerrar sesión</a>
+            </li>
             </ul>
             <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -42,4 +45,22 @@ export function barraNavegacion() {
         </div>
     </nav>
     `;
+}
+
+window.onload = function () {
+    document.getElementById("cerrarSesion").onclick = cerrarSesion;
+}
+
+function cerrarSesion(event) {
+    event.preventDefault();
+
+    const tipoUsuario = localStorage.getItem("tipoUsuario");
+
+    localStorage.clear();
+
+    if (tipoUsuario === "cliente") {
+        window.location.href = "clientes-login.html";
+    } else {
+        window.location.href = "index.html";
+    }
 }
