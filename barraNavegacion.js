@@ -12,7 +12,7 @@ export function barraNavegacion() {
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="parqueo.html">Parqueo</a>
+                <a class="nav-link" href="parqueo.html" id="enlaceParqueo">Parqueo</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -49,6 +49,14 @@ export function barraNavegacion() {
 
 window.onload = function () {
     document.getElementById("cerrarSesion").onclick = cerrarSesion;
+
+    const tipoUsuario = localStorage.getItem("tipoUsuario");
+
+    if (tipoUsuario) {
+        document.querySelector("#enlaceParqueo").style.display = "block";
+    } else {
+        document.querySelector("#enlaceParqueo").style.display = "none";
+    }
 }
 
 function cerrarSesion(event) {
