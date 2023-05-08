@@ -296,7 +296,7 @@ function cargarParqueos(esReserva) {
       }
 
       if (esReserva) {
-        data = data.filter((e) => e.reserva == 1);
+        data = data.filter((e) => e.reserva == 1 && !e.fechaFinal);
       }
 
       const tipoUsuario = localStorage.getItem("tipoUsuario");
