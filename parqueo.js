@@ -54,13 +54,25 @@ $(document).ready(function () {
       $("#horaInicio").val("");
 
       $("#reserva").prop("checked", false);
-
-      // Select clienteId sin seleccionar:
-      $("#clienteId").val(0);
-      $("#vehiculoId").val(0);
-      $("#cubiculoId").val(0);
-
+      
+      let tipoUsuario = localStorage.getItem("tipoUsuario");
       cargarClientes(0);
+
+      if (tipoUsuario && tipoUsuario == "cliente") {
+        $("#clienteId").prop("disabled", true);
+        const clienteId = localStorage.getItem("clienteId");
+        
+        setTimeout(() => {
+          $("#clienteId").val(clienteId);
+        }, 2000);
+        
+        cargarVehiculos(clienteId);
+      } else {
+        $("#clienteId").val(0);
+        $("#vehiculoId").val(0);
+        $("#cubiculoId").val(0);
+      }
+
       cargarCubiculos(0);
     }
   });
@@ -285,6 +297,13 @@ function cargarParqueos(esReserva) {
 
       if (esReserva) {
         data = data.filter((e) => e.reserva == 1);
+      }
+
+      const tipoUsuario = localStorage.getItem("tipoUsuario");
+
+      if (tipoUsuario && tipoUsuario == "cliente") {
+        const clienteId = parseInt(localStorage.getItem("clienteId"));
+        data = data.filter((e) => e.clienteId == clienteId);
       }
 
       data.forEach(function (e) {
