@@ -14,33 +14,30 @@ export function barraNavegacion() {
             <li class="nav-item">
                 <a class="nav-link" href="parqueo.html" id="enlaceParqueo">Parqueo</a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" id="menuDatos">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Datos
                 </a>
                 <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="medios-pago.html">Medios pago</a></li>
-                <li><a class="dropdown-item" href="cubiculos.html">Cubículos</a></li>
-                <li><a class="dropdown-item" href="parqueaderos.html">Parqueaderos</a></li>
-                <li><a class="dropdown-item" href="clientes.html">Clientes</a></li>
-                <li><a class="dropdown-item" href="vehiculo-tipos.html">Vehículo - Tipos</a></li>
+                <li><a class="dropdown-item protegido" href="medios-pago.html">Medios pago</a></li>
+                <li><a class="dropdown-item protegido" href="cubiculos.html">Cubículos</a></li>
+                <li><a class="dropdown-item protegido" href="parqueaderos.html">Parqueaderos</a></li>
+                <li><a class="dropdown-item protegido" href="clientes.html">Clientes</a></li>
+                <li><a class="dropdown-item protegido" href="vehiculo-tipos.html">Vehículo - Tipos</a></li>
                 <li><a class="dropdown-item" href="vehiculos.html">Vehículo</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="clientes-login.html">Clientes</a>
+                <a class="nav-link" href="clientes-login.html"> Acceso clientes</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" id="cerrarSesion">Cerrar sesión</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="registro.html" id="enlaceRegistro">Registro</a>
+                <a class="nav-link" href="registro.html" id="enlaceRegistro">Registro clientes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="registro.html" id="enlaceRegistro">Registro</a>
+                <a class="nav-link" href="registro-operarios.html" id="enlaceRegistro-operarios">Registro operarios</a>
             </li>
             </ul>
             <form class="d-flex" role="search">
@@ -62,6 +59,13 @@ window.onload = function () {
         document.querySelector("#enlaceParqueo").style.display = "block";
     } else {
         document.querySelector("#enlaceParqueo").style.display = "none";
+        document.querySelector("#menuDatos").style.display = "none";
+    }
+
+    if (tipoUsuario === "cliente") {
+        $(".protegido").hide();
+    } else if (tipoUsuario === "operario") {
+        $(".protegido").show();
     }
 }
 
