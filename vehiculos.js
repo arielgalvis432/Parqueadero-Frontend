@@ -73,7 +73,16 @@ $(document).ready(function () {
       $("#clienteId").val('');
       $("#tipoVehiculoId").val('');
 
-      cargarClientes(0);
+      let clienteId = localStorage.getItem("clienteId");
+
+      if (clienteId) {
+        clienteId = parseInt(clienteId);
+        cargarClientes(clienteId);
+
+        $("#clienteId").prop("disabled", true);
+      } else {
+        cargarClientes(0);
+      }
       cargarTipoVehiculos(0);
     }
   });
