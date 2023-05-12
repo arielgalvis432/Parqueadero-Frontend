@@ -62,6 +62,16 @@ $(document).ready(function () {
       
       cargarClientes(button.getAttribute("data-bs-cliente-id"));
       cargarTipoVehiculos(button.getAttribute("data-bs-tipo-vehiculo-id"));
+
+      setTimeout(() => {
+        let clienteId = localStorage.getItem("clienteId");
+
+        if (clienteId) {
+          clienteId = parseInt(clienteId);
+          $("#clienteId").val(clienteId);
+          $("#clienteId").prop("disabled", true);
+        }
+      }, 1500);
     } else {
       const titulo = exampleModal.querySelector(".modal-title");
       titulo.textContent = "Nuevo Cliente";
