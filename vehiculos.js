@@ -6,6 +6,13 @@ $(document).ready(function () {
     success: function (data) {
       let tbyDatos = $("#tbyDatos");
 
+      let clienteId = localStorage.getItem("clienteId");
+
+      if (clienteId) {
+        clienteId = parseInt(clienteId);
+        data = data.filter((e) => e.clienteId == clienteId);
+      }
+
       // Recorrer el arreglo de objetos JSON que se encuentra en la propiedad 'data' del objeto JSON 'data':
       data.forEach(function (e) {
         const tr = $("<tr></tr>");
