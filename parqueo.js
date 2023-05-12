@@ -250,7 +250,6 @@ function buscarParqueosPorClienteDocumento(documento) {
         tr.append(`<td>${e.fechaFinal ? e.fechaFinal : "N/D"}</td>`);
         tr.append(`<td>${e.horaFinal ? e.horaFinal : "N/D"}</td>`);
         tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
-        tr.append(`<td>${e.fechaFinal ? "Activa" : "No ocupada"}</td>`);
         tr.append(`<td>${e.placaVehiculo}</td>`);
         tr.append(`<td>${e.nombreCliente}</td>`);
         tr.append(`<td>${e.cubiculoId}</td>`);
@@ -314,7 +313,6 @@ function cargarParqueos(esReserva) {
         tr.append(`<td>${e.fechaFinal ? e.fechaFinal : "N/D"}</td>`);
         tr.append(`<td>${e.horaFinal ? e.horaFinal : "N/D"}</td>`);
         tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
-        tr.append(`<td>${e.fechaFinal ? "Ocupada" : "No ocupada"}</td>`);
         tr.append(`<td>${e.placaVehiculo}</td>`);
         tr.append(`<td>${e.nombreCliente}</td>`);
         tr.append(`<td>${e.cubiculoId}</td>`);
