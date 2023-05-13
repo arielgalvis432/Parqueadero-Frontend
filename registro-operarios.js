@@ -1,18 +1,18 @@
 $(document).ready(function () {
   cargarParqueaderos();
 
-  $("#frmCrearCliente").submit(crearCliente);
+  $("#frmCrearCliente").submit(crearUsuario);
 });
 
-function crearCliente(e) {
+function crearUsuario(e) {
   e.preventDefault();
 
-  const documento = $("#documento").val();
+  const email = $("#email").val();
 
   var settings = {
     url:
-      "http://localhost:8080/backend/api/cliente/buscar-por-documento?documento=" +
-      documento,
+      "http://localhost:8080/backend/api/usuario/buscar-por-email?email=" +
+      email,
     method: "GET",
     timeout: 0,
   };
@@ -20,12 +20,12 @@ function crearCliente(e) {
   $.ajax(settings).done(function (response) {
     if (!response) {
       const nombreCompleto = $("#nombreCompleto").val();
+      const password = $("#password").val();
       const email = $("#email").val();
       const telefono = $("#telefono").val();
-      const parqueaderoId = $("#parqueaderoId").val();
 
       var settings = {
-        url: "http://localhost:8080/backend/api/cliente",
+        url: "http://localhost:8080/backend/api/usuario",
         method: "POST",
         timeout: 0,
         headers: {
@@ -33,20 +33,22 @@ function crearCliente(e) {
         },
         data: JSON.stringify({
           nombreCompleto: nombreCompleto,
-          documento: documento,
+          password: password,
           email: email,
           telefono: telefono,
           parqueaderoId: parqueaderoId,
+          rolId: 1,
+          parqueaderoId: 1
         }),
       };
 
       $.ajax(settings).done(function (response) {
-        alert('Cliente creado correctamente');
+        alert('Usuario creado correctamente');
         
-        location.href = "clientes-login.html";
+        location.href = "usuarios-login.html";
       });
     } else {
-      alert("El cliente ya existe");
+      alert("El usuario ya existe");
     }
   });
 }
