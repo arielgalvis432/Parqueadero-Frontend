@@ -28,19 +28,19 @@ export function barraNavegacion() {
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="clientes-login.html"> Acceso clientes</a>
+                <a class="nav-link acceso" href="clientes-login.html"> Acceso clientes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="usuarios-login.html"> Acceso usuarios</a>
+                <a class="nav-link acceso" href="usuarios-login.html"> Acceso usuarios</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" id="cerrarSesion">Cerrar sesión</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="registro.html" id="enlaceRegistro">Registro clientes</a>
+                <a class="nav-link registro" href="registro.html" id="enlaceRegistro">Registro clientes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="registro-operarios.html" id="enlaceRegistro-operarios">Registro operarios</a>
+                <a class="nav-link registro" href="registro-operarios.html" id="enlaceRegistro-operarios">Registro operarios</a>
             </li>
             </ul>
             <form class="d-flex" role="search">
@@ -60,15 +60,23 @@ window.onload = function () {
 
     if (tipoUsuario) {
         document.querySelector("#enlaceParqueo").style.display = "block";
+        $(".acceso").hide();
+        $(".registro").hide();
+        $("#cerrarSesion").show();
     } else {
         document.querySelector("#enlaceParqueo").style.display = "none";
-        document.querySelector("#menuDatos").style.display = "none";
+        document.querySelector("#menuDatos").style.display = "block";
+        $(".acceso").show();
+        $(".registro").show();
+        $("#cerrarSesion").hide();
     }
 
     if (tipoUsuario === "cliente") {
         $(".protegido").hide();
     } else if (tipoUsuario === "operario") {
         $(".protegido").show();
+    } else {
+        $(".protegido").hide();
     }
 }
 
@@ -82,6 +90,6 @@ function cerrarSesion(event) {
     if (tipoUsuario === "cliente") {
         window.location.href = "clientes-login.html";
     } else {
-        window.location.href = "index.html";
+        window.location.href = "usuarios-login.html";
     }
 }
