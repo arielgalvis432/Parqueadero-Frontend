@@ -31,6 +31,9 @@ export function barraNavegacion() {
                 <a class="nav-link" href="clientes-login.html"> Acceso clientes</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="usuarios-login.html"> Acceso usuarios</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#" id="cerrarSesion">Cerrar sesión</a>
             </li>
             <li class="nav-item">

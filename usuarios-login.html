@@ -16,15 +16,15 @@
     <!-- Formulario para inicio de sesión de clientes que quede centrado -->
     <div class="row justify-content-center">
       <div class="col-md-4">
-        <form id="frmInicioSesionCliente">
-          <h3 class="text-center mb-4">Inicio de sesión clientes</h3>
+        <form id="frmInicioSesionUsuario">
+          <h3 class="text-center mb-4">Inicio de sesión usuarios</h3>
           <div class="form-group">
-            <label for="documento">Documento:</label>
-            <input type="number" class="form-control" id="documento" placeholder="Ingresa tu documento" required>
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" placeholder="Ingresa tu email" required>
           </div>
           <div class="form-group">
-            <label for="celular">Celular:</label>
-            <input type="number" class="form-control" id="celular" placeholder="Ingresa tu número de celular" required>
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña" required>
           </div>
           <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
         </form>
@@ -39,7 +39,7 @@
     crossorigin="anonymous"></script>
   <script type="module" src="/main.js"></script>
   <script src="public/jquery.min.js"></script>
-  <script src="clientes-login.js"></script>
+  <script src="usuarios-login.js"></script>
 </body>
 
 </html>

@@ -1,16 +1,16 @@
 $(document).ready(function () {
-  $("#frmInicioSesionCliente").submit(iniciarSesionUsuario);
+  $("#frmInicioSesionUsuario").submit(iniciarSesionUsuario);
 });
 
 function iniciarSesionUsuario(event) {
   event.preventDefault();
   let datos = {
-    documento: $("#documento").val(),
-    telefono: $("#celular").val(),
+    email: $("#email").val(),
+    password: $("#password").val(),
   };
 
   $.ajax({
-    url: "http://localhost:8080/backend/api/cliente/iniciar-sesion",
+    url: "http://localhost:8080/backend/api/usuario/iniciar-sesion",
     type: "post",
     dataType: "json",
     contentType: "application/json",
@@ -18,9 +18,9 @@ function iniciarSesionUsuario(event) {
     success: function (respuesta) {
       console.log(respuesta);
       if (respuesta.id !== 0) {
-        localStorage.setItem("documento", respuesta.documento);
-        localStorage.setItem("clienteId", respuesta.id);
-        localStorage.setItem("tipoUsuario", "cliente");
+        localStorage.setItem("email", email);
+        localStorage.setItem("usuarioId", respuesta.id);
+        localStorage.setItem("tipoUsuario", "operario");
         window.location.href = "parqueo.html";
       } else {
         alert("Sus datos de inicio de sesión son incorrectos");
