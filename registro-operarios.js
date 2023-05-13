@@ -1,7 +1,6 @@
 $(document).ready(function () {
-  cargarParqueaderos();
 
-  $("#frmCrearCliente").submit(crearUsuario);
+  $("#frmCrearOperario").submit(crearUsuario);
 });
 
 function crearUsuario(e) {
@@ -36,7 +35,6 @@ function crearUsuario(e) {
           password: password,
           email: email,
           telefono: telefono,
-          parqueaderoId: parqueaderoId,
           rolId: 1,
           parqueaderoId: 1
         }),
@@ -50,29 +48,5 @@ function crearUsuario(e) {
     } else {
       alert("El usuario ya existe");
     }
-  });
-}
-
-function cargarParqueaderos() {
-  $.ajax({
-    url: "http://localhost:8080/backend/api/parqueadero",
-    type: "GET",
-    dataType: "json",
-    success: function (data) {
-      const parqueaderos = $("#parqueaderoId");
-      parqueaderos.empty();
-
-      data.forEach(function (e) {
-        const option = $("<option></option>");
-        option.val(e.id);
-        option.text(e.nombre);
-        parqueaderos.append(option);
-      });
-
-      parqueaderos.val(parqueaderos.children()[0].value);
-    },
-    error: function (error) {
-      console.log("error", error);
-    },
   });
 }
