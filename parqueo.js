@@ -247,8 +247,8 @@ function buscarParqueosPorClienteDocumento(documento) {
         tr.append(`<td>${e.id}</td>`);
         tr.append(`<td>${e.fechaInicio}</td>`);
         tr.append(`<td>${e.horaInicio}</td>`);
-        tr.append(`<td>${e.fechaFinal ? e.fechaFinal : "N/D"}</td>`);
-        tr.append(`<td>${e.horaFinal ? e.horaFinal : "N/D"}</td>`);
+        tr.append(`<td>${e.fechaFinal ? e.fechaFinal : "Sin finalizar"}</td>`);
+        tr.append(`<td>${e.horaFinal ? e.horaFinal : "Sin finalizar"}</td>`);
         tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
         tr.append(`<td>${e.placaVehiculo}</td>`);
         tr.append(`<td>${e.nombreCliente}</td>`);
@@ -310,8 +310,8 @@ function cargarParqueos(esReserva) {
         tr.append(`<td>${e.id}</td>`);
         tr.append(`<td>${e.fechaInicio}</td>`);
         tr.append(`<td>${e.horaInicio}</td>`);
-        tr.append(`<td>${e.fechaFinal ? e.fechaFinal : "N/D"}</td>`);
-        tr.append(`<td>${e.horaFinal ? e.horaFinal : "N/D"}</td>`);
+        tr.append(`<td>${e.fechaFinal ? e.fechaFinal : "Sin finalizar"}</td>`);
+        tr.append(`<td>${e.horaFinal ? e.horaFinal : "Sin finalizar"}</td>`);
         tr.append(`<td>${e.reserva == 1 ? "Sí" : "No"}</td>`);
         tr.append(`<td>${e.placaVehiculo}</td>`);
         tr.append(`<td>${e.nombreCliente}</td>`);
