@@ -22,6 +22,7 @@ export function barraNavegacion() {
                 <li><a class="dropdown-item protegido" href="clientes.html">Clientes</a></li>
                 <li><a class="dropdown-item protegido" href="vehiculo-tipos.html">Vehículo - Tipos</a></li>
                 <li><a class="dropdown-item" href="vehiculos.html">Vehículo</a></li>
+                <li><a class="dropdown-item" href="cubiculos-disponibles.html">Cubículos disponibles</a></li>
                 </ul>
             </li>
             <li class="nav-item">
